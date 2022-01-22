@@ -66,6 +66,12 @@ li {
     color: white;
 }
 
+#incorrect{
+    border: 3px solid #e74c3c;  
+    background-color: #e74c3c;
+    color: white;
+}
+
 #highlighted{
     color: white;
     background-color: #3498db;

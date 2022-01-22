@@ -22,12 +22,12 @@ var puzzle = {
 
 
 $( ".l-box" ).click(function() {
-    if(this.id == ""){
+    if(this.id == "" || this.id == "incorrect"){
         if(lastHighlighted == undefined){
             this.id = "highlighted";
             lastHighlighted = this;
         }else{
-            if(lastHighlighted.id != "correct"){
+            if(lastHighlighted.id != "correct" && lastHighlighted.id != "incorrect"){
                 lastHighlighted.id = ""
             }
             this.id = "highlighted";
@@ -55,6 +55,10 @@ function guess(letter) {
 
     //if correct:
     for(const letters in puzzle){
+        if(puzzle[letters] != letter && letter != correctLetter){
+            incorrect();
+            break;
+        }
         if(puzzle[letters] == letter){
             if(letter == correctLetter){
                 if($("."+letters).attr('id') != "corner"){
@@ -65,4 +69,8 @@ function guess(letter) {
         }
     }
 
+}
+
+function incorrect() {
+    lastHighlighted.id = "incorrect";
 }
