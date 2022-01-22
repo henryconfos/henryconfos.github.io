@@ -1,0 +1,95 @@
+*{
+    font-family: sans-serif;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; 
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  
+li {
+    float: left;
+    cursor: pointer;
+}
+
+.content{
+    max-width: 500px;
+    margin: auto;
+    text-align: center;
+}
+
+.game ul{
+    margin: 0 auto;
+    display: inline-block;
+}
+
+.keyboard ul{
+    margin: 0 auto;
+    display: inline-block;
+}
+
+.l-box{
+  height: 45px;
+  width: 45px;
+  border: 3px solid #7f8c8d;  
+  margin: 5px;
+}
+
+.l-box p{
+    margin: 0;
+    font-weight: bold;
+    text-align: center;
+    font-size: 30pt;
+    line-height: 45px;
+    display: block;
+}
+
+#corner{
+    border-radius: 10px;
+    cursor: auto;
+    color: white;
+    border: 3px solid #e67e22;  
+    background-color: #e67e22;
+}
+
+#correct{
+    border: 3px solid #27ae60;  
+    background-color: #27ae60;
+    color: white;
+}
+
+#highlighted{
+    color: white;
+    background-color: #3498db;
+    border: 3px solid #3498db;
+}
+
+#hidden{
+    background-color: white;
+    color: white;
+    border: 3px solid white;
+}
+
+.keyboard{
+    margin-top: 50px;
+}
+.letter{
+    height: 35px;
+    width: 30px;
+    background-color: grey;
+    margin: 2px;
+}
+
+.letter p{
+    margin: 0;
+    color: white;
+    line-height: 35px;
+}
