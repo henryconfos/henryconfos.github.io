@@ -8,6 +8,24 @@
             user-select: none; 
 }
 
+marquee{
+    background-color: #e74c3c;
+    color: white;
+    font-weight: 700;
+    font-size: 35pt;
+    gap: 0;
+    behavior: alternate;
+    direction: left;
+}
+img{
+    width: 500px;
+    height: 700px;
+}
+.m{
+    width: 300px;
+    height: 20px;
+    margin-left: 60px;
+}
 ul {
     list-style-type: none;
     margin: 0;
@@ -69,6 +87,12 @@ li {
 #incorrect{
     border: 3px solid #e74c3c;  
     background-color: #e74c3c;
+    color: white;
+}
+
+#yellow{
+    border: 3px solid #ebcd4d;
+    background-color: #ebcd4d;
     color: white;
 }
 
