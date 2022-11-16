@@ -1,6 +1,5 @@
 var lastHighlighted;
 var cHighlighted;
-
 var puzzle = {
     aa: "T",
     ab: "R",
