@@ -1,0 +1,150 @@
+var activeElm = null;
+var lives = 4;
+
+
+puzzle = ['U', 'R', 'N', 
+'E', 'V', 'E', 
+'E', 'E', 'R', 
+'N', 'I', 'H']
+cGuess = [];
+
+
+function createKeyboard() {
+    const keyboardLayout = [
+        ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+        ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+        ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
+    ];
+
+    const keyboardDiv = document.getElementById('keyboard');
+
+    keyboardLayout.forEach(row => {
+        const rowDiv = document.createElement('div');
+        rowDiv.className = 'keyboard-row';
+
+        row.forEach(keyChar => {
+            const keyButton = document.createElement('button');
+            keyButton.className = 'key';
+            keyButton.textContent = keyChar;
+            keyButton.addEventListener('click', () => handleKeyPress(keyChar));
+
+            rowDiv.appendChild(keyButton);
+        });
+
+        keyboardDiv.appendChild(rowDiv);
+    });
+}
+
+
+function checkPuzzle(){
+    for (let i = 0; i < puzzle.length; i++) {
+        
+        var cLetter = $("#"+String.fromCharCode(97 + i)).text();
+
+
+       // If correct letter and place
+       if(cLetter == puzzle[i]){
+        $("#"+String.fromCharCode(97 + i)).addClass('green');
+        if(!cGuess.includes(puzzle[i])){
+            cGuess.push(puzzle[i]);
+        }
+       };
+
+       if(cLetter != puzzle[i] && puzzle.includes(cLetter)){
+        $("#"+String.fromCharCode(97 + i)).addClass('yellow');
+       }
+
+
+    }
+
+    for (let i = 0; i < puzzle.length; i++) {
+        for (let x = 0; x < cGuess.length; x++) {
+            if(puzzle[i] == cGuess[x]){
+                $("#"+String.fromCharCode(97 + i)).text(puzzle[i]);
+                // if($('#'+cLetter).hasClass('grey')){
+                //     $('#'+cLetter).removeClass('grey')
+                // }
+                // if($('#'+cLetter).hasClass('yellow')){
+                //     $('#'+cLetter).removeClass('yellow')
+                // }
+                $("#"+String.fromCharCode(97 + i)).addClass('green');
+            }
+        }
+     }
+
+}
+
+function handleKeyPress(keyChar) {
+    if(activeElm != null){
+
+        if(cGuess.includes(keyChar)){
+            alert("Already Guessed!");
+            return;
+        }
+
+        $(activeElm).text(keyChar);
+        $(activeElm).removeClass("active");
+
+        // Check if wrong
+        if(!puzzle.includes(keyChar)){
+            console.log("wrong");
+            $(activeElm).addClass('grey');
+            lives--
+            if(lives > 1){
+                notify(lives+" guesses remaining.")
+            }else{
+                notify(lives+" guess remaining.")
+            }
+            if(lives == 0){
+                cGuess = puzzle;
+            }
+        }
+        console.log("here");
+        activeElm = null;
+        checkPuzzle();
+
+        
+    }
+}
+
+function notify(message) {
+    var $notificationBox = $('#notificationBox');
+
+    $notificationBox.text(message);
+ 
+    $notificationBox.fadeIn(200).delay(2500).fadeOut(200);
+}
+
+
+$('.box').on( "click", function() {
+    if(!$(this).hasClass("corner") && !$(this).hasClass("green")){
+        
+        if(activeElm && activeElm !== this){
+            $(activeElm).removeClass("active");
+        }
+
+        
+        $(this).toggleClass("active");
+
+        // Update activeElm to the currently clicked box if it's now active, or set to null if not
+        activeElm = $(this).hasClass("active") ? this : null;
+
+        // if($(this).hasClass('yellow')){
+        //     $(this).removeClass("yellow");
+        // }
+                
+        // if($(this).hasClass('grey')){
+        //     $(this).removeClass("grey");
+        // }
+    }
+
+  } );
+
+
+
+createKeyboard();
+
+document.onkeypress=function(e){
+    console.log(e.key);
+    handleKeyPress(e.key.toUpperCase());
+}

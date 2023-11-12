@@ -1,125 +1,136 @@
 *{
-    font-family: sans-serif;
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; 
-}
-
-marquee{
-    background-color: #e74c3c;
-    color: white;
-    font-weight: 700;
-    font-size: 35pt;
-    gap: 0;
-    behavior: alternate;
-    direction: left;
-}
-img{
-    width: 500px;
-    height: 700px;
-}
-.m{
-    width: 300px;
-    height: 20px;
-    margin-left: 60px;
-}
-ul {
-    list-style-type: none;
     margin: 0;
     padding: 0;
-    overflow: hidden;
-  }
-  
-li {
-    float: left;
-    cursor: pointer;
+    
+}
+
+.header{
+    width: 100%;
+    height: 40px;
+    border-bottom: 1px solid grey;
+    text-align: center;
+}
+
+.title{
+    font-weight: lighter;
+    line-height: 40px;
 }
 
 .content{
-    max-width: 500px;
-    margin: auto;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
 }
 
-.game ul{
-    margin: 0 auto;
-    display: inline-block;
+.game-area{
+    flex: 1.5;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
-.keyboard ul{
-    margin: 0 auto;
-    display: inline-block;
+#keyboard{
+    flex: 1.5;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.keyboard-row {
+    display: flex;
+    justify-content: center;
 }
 
-.l-box{
-  height: 45px;
-  width: 45px;
-  border: 3px solid #7f8c8d;  
-  margin: 5px;
-}
 
-.l-box p{
-    margin: 0;
-    font-weight: bold;
-    text-align: center;
-    font-size: 30pt;
-    line-height: 45px;
-    display: block;
-}
-
-#corner{
-    border-radius: 10px;
-    cursor: auto;
-    color: white;
-    border: 3px solid #e67e22;  
-    background-color: #e67e22;
-}
-
-#correct{
-    border: 3px solid #27ae60;  
-    background-color: #27ae60;
-    color: white;
-}
-
-#incorrect{
-    border: 3px solid #e74c3c;  
-    background-color: #e74c3c;
-    color: white;
-}
-
-#yellow{
-    border: 3px solid #ebcd4d;
-    background-color: #ebcd4d;
-    color: white;
-}
-
-#highlighted{
-    color: white;
-    background-color: #3498db;
-    border: 3px solid #3498db;
-}
-
-#hidden{
-    background-color: white;
-    color: white;
-    border: 3px solid white;
-}
-
-.keyboard{
-    margin-top: 50px;
-}
-.letter{
-    height: 35px;
-    width: 30px;
-    background-color: grey;
+.key{
+    width: 40px;
+    height: 60px;
     margin: 2px;
+    font-size: 15pt;
+    font-weight: bold;
+    border: 0;
+    border-radius: 3px;
+    color: black !important;
+    background-color: #D4D6DA;
+    cursor: pointer;
+}
+button{
+    text-decoration: none;
 }
 
-.letter p{
-    margin: 0;
+.box{
+    height: 40px;
+    width: 40px;
+    margin-top: 12px;
+    margin-left: 10px;
+    border: 3px solid #D4D6DA;
+    line-height: 40px;
+    text-align: center;
+    font-size: 23pt;
+    transition: transform 0.6s, background-color 0.2s;
+    transform-style: preserve-3d;
+}
+
+
+.box-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 280px; 
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+.hidden{
+    visibility: hidden;
+}
+
+.corner{
+    background-color: #e67e22;
+    border: 0;
+    height: 46px;
+    width: 46px;
+    border-radius: 3px;
     color: white;
-    line-height: 35px;
+    line-height: 46px;
+}
+
+.active{
+    background-color: dodgerblue !important;
+    border: 3px solid dodgerblue !important;
+    color: white;
+}
+
+.green{
+    transform: rotateX(360deg);
+    background-color: seagreen !important;
+    border: 3px solid seagreen !important;
+    color: white;
+}
+
+.yellow{
+    transform: rotateX(360deg);
+    background-color: #c9b458;
+    border: 3px solid #c9b458;
+    color: white;
+}
+
+.grey{
+    background-color: #D4D6DA;
+    border: 3px solid #D4D6DA;
+    color: white;
+}
+
+#notificationBox {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #7f8c8d;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 1000; /* Ensure it's above other elements */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Optional, for better visibility */
 }
