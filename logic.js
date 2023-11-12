@@ -13,7 +13,7 @@ function createKeyboard() {
     const keyboardLayout = [
         ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
         ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-        ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
+        ['Z', 'X', 'C', 'V', 'B', 'N', 'M', 'DEL']
     ];
 
     const keyboardDiv = document.getElementById('keyboard');
@@ -77,10 +77,21 @@ function checkPuzzle(){
 function handleKeyPress(keyChar) {
     if(activeElm != null){
 
+        if(keyChar == "DEL"){
+            $(activeElm).text('');
+            $(activeElm).removeClass("active");
+            $(activeElm).removeClass("yellow");
+            $(activeElm).removeClass("grey");
+            return;
+        }
+
+        console.log(keyChar);
         if(cGuess.includes(keyChar)){
             alert("Already Guessed!");
             return;
         }
+
+        
 
         $(activeElm).text(keyChar);
         $(activeElm).removeClass("active");
@@ -89,6 +100,12 @@ function handleKeyPress(keyChar) {
         if(!puzzle.includes(keyChar)){
             console.log("wrong");
             $(activeElm).addClass('grey');
+            var divWithLetter = $("button.key").filter(function() {
+                return $(this).text().trim() === keyChar;
+            });
+
+            $(divWithLetter[0]).addClass('strikethrough')
+
             lives--
             if(lives > 1){
                 notify(lives+" guesses remaining.")
@@ -112,7 +129,7 @@ function notify(message) {
 
     $notificationBox.text(message);
  
-    $notificationBox.fadeIn(200).delay(2500).fadeOut(200);
+    $notificationBox.fadeIn(200).delay(1500).fadeOut(200);
 }
 
 
@@ -133,9 +150,9 @@ $('.box').on( "click", function() {
         //     $(this).removeClass("yellow");
         // }
                 
-        // if($(this).hasClass('grey')){
-        //     $(this).removeClass("grey");
-        // }
+        if($(this).hasClass('grey')){
+            $(this).removeClass("grey");
+        }
     }
 
   } );

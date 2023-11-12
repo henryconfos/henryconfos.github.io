@@ -116,8 +116,8 @@ button{
 }
 
 .grey{
-    background-color: #D4D6DA;
-    border: 3px solid #D4D6DA;
+    background-color: #787c7e;
+    border: 3px solid #787c7e;
     color: white;
 }
 
@@ -133,4 +133,9 @@ button{
     border-radius: 5px;
     z-index: 1000; /* Ensure it's above other elements */
     box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Optional, for better visibility */
+}
+
+.strikethrough{
+    background-color: #787c7e;
+    color: white !important;
 }
