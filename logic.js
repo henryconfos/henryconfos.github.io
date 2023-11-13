@@ -1,6 +1,17 @@
 var activeElm = null;
 var lives = 4;
+var played = false;
 
+if (localStorage.getItem("played") == null) {
+    localStorage.setItem("played", "no");
+    played = false;
+}else{
+    if(localStorage.getItem("played") == "yes"){
+        played = true;
+    }else{
+        played = false;
+    }
+}
 
 puzzle = ['U', 'R', 'N', 
 'E', 'V', 'E', 
@@ -165,3 +176,19 @@ document.onkeypress=function(e){
     console.log(e.key);
     handleKeyPress(e.key.toUpperCase());
 }
+
+if(!played){
+    $("#popup").show();
+}
+
+
+$(".popup-content").animate({ bottom: "10%" }, "slow");
+
+// Close the popup when the 'x' is clicked
+$(".close").click(function(){
+    $("#popup").fadeOut();
+  $(".popup-content").animate({ bottom: "-100%" }, function() {
+    $("#popup").hide(); 
+    localStorage.setItem("played", "yes");
+  });
+});
