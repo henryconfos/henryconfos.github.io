@@ -2,6 +2,14 @@ var activeElm = null;
 var lives = 4;
 var played = false;
 
+let today = new Date();
+let day = String(today.getDate()+1).padStart(2, '0');
+let month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0
+let year = today.getFullYear();
+
+// let formattedDate = day + '/' + month + '/' + year;
+let formattedDate = Math.floor(Math.random() * 10) + 1;
+
 if (localStorage.getItem("played") == null) {
     localStorage.setItem("played", "no");
     played = false;
@@ -13,10 +21,8 @@ if (localStorage.getItem("played") == null) {
     }
 }
 
-puzzle = ['U', 'R', 'N', 
-'E', 'V', 'E', 
-'E', 'E', 'R', 
-'N', 'I', 'H']
+corners = p[formattedDate].corners;
+puzzle = p[formattedDate].puzzle;
 cGuess = [];
 
 
@@ -56,6 +62,8 @@ function checkPuzzle(){
        // If correct letter and place
        if(cLetter == puzzle[i]){
         $("#"+String.fromCharCode(97 + i)).addClass('green');
+
+        
         if(!cGuess.includes(puzzle[i])){
             cGuess.push(puzzle[i]);
         }
@@ -83,6 +91,11 @@ function checkPuzzle(){
         }
      }
 
+     var numItems = $('.green').length -1;
+     if(numItems == 12){
+         notify("That'll do it!")
+     }
+
 }
 
 function handleKeyPress(keyChar) {
@@ -98,7 +111,7 @@ function handleKeyPress(keyChar) {
 
         console.log(keyChar);
         if(cGuess.includes(keyChar)){
-            alert("Already Guessed!");
+            notify("Already Guessed!");
             return;
         }
 
@@ -168,9 +181,16 @@ $('.box').on( "click", function() {
 
   } );
 
+function loadCorners(){
+    for (let i = 0; i < corners.length; i++) {
+        $('.c'+i).text(corners[i]);
+    }
+}
+
 
 
 createKeyboard();
+loadCorners();
 
 document.onkeypress=function(e){
     console.log(e.key);
