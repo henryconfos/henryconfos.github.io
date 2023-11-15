@@ -24,7 +24,7 @@ if (localStorage.getItem("played") == null) {
 corners = p[formattedDate].corners;
 puzzle = p[formattedDate].puzzle;
 cGuess = [];
-
+share = ["Corners "+formattedDate+": "];
 
 function createKeyboard() {
     const keyboardLayout = [
@@ -70,6 +70,9 @@ function checkPuzzle(){
        };
 
        if(cLetter != puzzle[i] && puzzle.includes(cLetter)){
+        if( $("#"+String.fromCharCode(97 + i)).hasClass('grey')){
+            $("#"+String.fromCharCode(97 + i)).removeClass('grey')
+        }
         $("#"+String.fromCharCode(97 + i)).addClass('yellow');
        }
 
@@ -80,20 +83,17 @@ function checkPuzzle(){
         for (let x = 0; x < cGuess.length; x++) {
             if(puzzle[i] == cGuess[x]){
                 $("#"+String.fromCharCode(97 + i)).text(puzzle[i]);
-                // if($('#'+cLetter).hasClass('grey')){
-                //     $('#'+cLetter).removeClass('grey')
-                // }
-                // if($('#'+cLetter).hasClass('yellow')){
-                //     $('#'+cLetter).removeClass('yellow')
-                // }
                 $("#"+String.fromCharCode(97 + i)).addClass('green');
             }
         }
      }
 
      var numItems = $('.green').length -1;
-     if(numItems == 12){
-         notify("That'll do it!")
+     if(numItems == 12 && lives != 0){
+         notify("That'll do it!");
+         share.push("🟩")
+         $(".result").text(share.join(""));
+         $('.r-div').show();
      }
 
 }
@@ -122,8 +122,9 @@ function handleKeyPress(keyChar) {
 
         // Check if wrong
         if(!puzzle.includes(keyChar)){
-            console.log("wrong");
+
             $(activeElm).addClass('grey');
+            share.push("⬜️ ")
             var divWithLetter = $("button.key").filter(function() {
                 return $(this).text().trim() === keyChar;
             });
@@ -139,8 +140,12 @@ function handleKeyPress(keyChar) {
             if(lives == 0){
                 cGuess = puzzle;
             }
+        }else{
+            aEID = $(activeElm).attr("id")
+            if( keyChar != puzzle[aEID.charCodeAt(0) - 97]){
+                share.push("🟨 ")
+            }
         }
-        console.log("here");
         activeElm = null;
         checkPuzzle();
 
@@ -174,9 +179,9 @@ $('.box').on( "click", function() {
         //     $(this).removeClass("yellow");
         // }
                 
-        if($(this).hasClass('grey')){
-            $(this).removeClass("grey");
-        }
+        // if($(this).hasClass('grey')){
+        //     $(this).removeClass("grey");
+        // }
     }
 
   } );
@@ -212,3 +217,8 @@ $(".close").click(function(){
     localStorage.setItem("played", "yes");
   });
 });
+
+$(".share").click(function() {
+    navigator.clipboard.writeText($(".result").text());
+    notify("Copied!");
+})
