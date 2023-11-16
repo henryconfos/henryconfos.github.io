@@ -74,6 +74,10 @@ function checkPuzzle(){
             $("#"+String.fromCharCode(97 + i)).removeClass('grey')
         }
         $("#"+String.fromCharCode(97 + i)).addClass('yellow');
+        setTimeout(function() {
+            $("#"+String.fromCharCode(97 + i)).removeClass('yellow')
+            $("#"+String.fromCharCode(97 + i)).text('')
+        }, 1600);
        }
 
 
