@@ -72,6 +72,7 @@ function checkPuzzle(){
        if(cLetter != puzzle[i] && puzzle.includes(cLetter)){
         if( $("#"+String.fromCharCode(97 + i)).hasClass('grey')){
             $("#"+String.fromCharCode(97 + i)).removeClass('grey')
+
         }
         $("#"+String.fromCharCode(97 + i)).addClass('yellow');
         setTimeout(function() {
@@ -130,6 +131,7 @@ function handleKeyPress(keyChar) {
         if(!puzzle.includes(keyChar)){
 
             $(activeElm).addClass('grey');
+            flipGrey(activeElm);
             share.push("⬜️ ")
 
             $(divWithLetter[0]).addClass('strikethrough')
@@ -169,6 +171,13 @@ function notify(message) {
     $notificationBox.text(message);
  
     $notificationBox.fadeIn(200).delay(1500).fadeOut(200);
+}
+
+function flipGrey(elm) {
+    setTimeout(function() {
+        $(elm).removeClass('grey')
+        $(elm).text('')
+    }, 1600);
 }
 
 
