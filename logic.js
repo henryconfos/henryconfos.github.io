@@ -8,7 +8,7 @@ let month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0
 let year = today.getFullYear();
 
 // let formattedDate = day + '/' + month + '/' + year;
-let formattedDate = Math.floor(Math.random() * 10) + 1;
+let formattedDate = Math.floor(Math.random() * 1191) + 1;
 
 if (localStorage.getItem("played") == null) {
     localStorage.setItem("played", "no");
@@ -24,7 +24,7 @@ if (localStorage.getItem("played") == null) {
 corners = p[formattedDate].corners;
 puzzle = p[formattedDate].puzzle;
 cGuess = [];
-share = ["Corners "+formattedDate+": "];
+share = ["Corners #"+formattedDate+": "];
 
 function createKeyboard() {
     const keyboardLayout = [
@@ -115,7 +115,9 @@ function handleKeyPress(keyChar) {
             return;
         }
 
-        
+        var divWithLetter = $("button.key").filter(function() {
+            return $(this).text().trim() === keyChar;
+        });
 
         $(activeElm).text(keyChar);
         $(activeElm).removeClass("active");
@@ -125,9 +127,6 @@ function handleKeyPress(keyChar) {
 
             $(activeElm).addClass('grey');
             share.push("⬜️ ")
-            var divWithLetter = $("button.key").filter(function() {
-                return $(this).text().trim() === keyChar;
-            });
 
             $(divWithLetter[0]).addClass('strikethrough')
 
@@ -139,11 +138,18 @@ function handleKeyPress(keyChar) {
             }
             if(lives == 0){
                 cGuess = puzzle;
+                share.push("❌")
+                $(".result").text(share.join(""));
+                $('.r-div').show();
             }
         }else{
             aEID = $(activeElm).attr("id")
             if( keyChar != puzzle[aEID.charCodeAt(0) - 97]){
+                $(divWithLetter[0]).addClass('yellow');
+                //$(activeElm).delay(2000).text('Y')
                 share.push("🟨 ")
+            }else{
+                $(divWithLetter[0]).addClass('greenKey');
             }
         }
         activeElm = null;

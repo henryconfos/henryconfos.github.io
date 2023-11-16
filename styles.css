@@ -71,6 +71,12 @@ button{
     transform-style: preserve-3d;
 }
 
+.white{
+    transform: rotateX(360deg);
+    background-color: white !important;
+    border: 3px solid #D4D6DA !important;
+}
+
 
 .box-container {
     display: flex;
@@ -105,14 +111,21 @@ button{
     transform: rotateX(360deg);
     background-color: seagreen !important;
     border: 3px solid seagreen !important;
-    color: white;
+    color: white !important;
+}
+
+.greenKey{
+  transform: rotateX(360deg);
+  background-color: seagreen !important;
+  border: 3px solid seagreen !important;
+  color: white !important;
 }
 
 .yellow{
     transform: rotateX(360deg);
     background-color: #c9b458;
     border: 3px solid #c9b458;
-    color: white;
+    color: white !important;
 }
 
 .grey{
@@ -208,8 +221,15 @@ button{
     margin-top: 10px;
     font-size: 15pt;
     cursor: pointer;
+    background-color: dodgerblue;
+    border: 0;
+    color: white;
+    height: 30px;
+    width: 18%;
+    border-radius: 3px;
   }
 
   .r-div{
+    text-align: center;
     display: none;
   }
