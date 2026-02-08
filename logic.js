@@ -56,12 +56,12 @@ function createKeyboard() {
 function checkPuzzle(){
     for (let i = 0; i < puzzle.length; i++) {
         
-        var cLetter = $("#"+String.fromCharCode(97 + i)).text();
+        var cLetter = document.getElementById(String.fromCharCode(97 + i)).textContent;
 
 
        // If correct letter and place
        if(cLetter == puzzle[i]){
-        $("#"+String.fromCharCode(97 + i)).addClass('green');
+        document.getElementById(String.fromCharCode(97 + i)).classList.add('green');
 
         
         if(!cGuess.includes(puzzle[i])){
@@ -70,14 +70,14 @@ function checkPuzzle(){
        };
 
        if(cLetter != puzzle[i] && puzzle.includes(cLetter)){
-        if( $("#"+String.fromCharCode(97 + i)).hasClass('grey')){
-            $("#"+String.fromCharCode(97 + i)).removeClass('grey')
-
+        const elem = document.getElementById(String.fromCharCode(97 + i));
+        if(elem.classList.contains('grey')){
+            elem.classList.remove('grey');
         }
-        $("#"+String.fromCharCode(97 + i)).addClass('yellow');
+        elem.classList.add('yellow');
         setTimeout(function() {
-            $("#"+String.fromCharCode(97 + i)).removeClass('yellow')
-            $("#"+String.fromCharCode(97 + i)).text('')
+            elem.classList.remove('yellow');
+            elem.textContent = '';
         }, 1600);
        }
 
@@ -87,18 +87,18 @@ function checkPuzzle(){
     for (let i = 0; i < puzzle.length; i++) {
         for (let x = 0; x < cGuess.length; x++) {
             if(puzzle[i] == cGuess[x]){
-                $("#"+String.fromCharCode(97 + i)).text(puzzle[i]);
-                $("#"+String.fromCharCode(97 + i)).addClass('green');
+                document.getElementById(String.fromCharCode(97 + i)).textContent = puzzle[i];
+                document.getElementById(String.fromCharCode(97 + i)).classList.add('green');
             }
         }
      }
 
-     var numItems = $('.green').length -1;
+     var numItems = document.querySelectorAll('.green').length - 1;
      if(numItems == 12 && lives != 0){
          notify("That'll do it!");
-         share.push("🟩")
-         $(".result").text(share.join(""));
-         $('.r-div').show();
+         share.push("🟩");
+         document.querySelector(".result").textContent = share.join("");
+         document.querySelector('.r-div').style.display = 'block';
      }
 
 }
@@ -107,10 +107,10 @@ function handleKeyPress(keyChar) {
     if(activeElm != null){
 
         if(keyChar == "DEL"){
-            $(activeElm).text('');
-            $(activeElm).removeClass("active");
-            $(activeElm).removeClass("yellow");
-            $(activeElm).removeClass("grey");
+            activeElm.textContent = '';
+            activeElm.classList.remove("active");
+            activeElm.classList.remove("yellow");
+            activeElm.classList.remove("grey");
             return;
         }
 
@@ -120,42 +120,47 @@ function handleKeyPress(keyChar) {
             return;
         }
 
-        var divWithLetter = $("button.key").filter(function() {
-            return $(this).text().trim() === keyChar;
+        var divWithLetter = Array.from(document.querySelectorAll("button.key")).filter(function(btn) {
+            return btn.textContent.trim() === keyChar;
         });
 
-        $(activeElm).text(keyChar);
-        $(activeElm).removeClass("active");
+        activeElm.textContent = keyChar;
+        activeElm.classList.remove("active");
 
         // Check if wrong
         if(!puzzle.includes(keyChar)){
 
-            $(activeElm).addClass('grey');
+            activeElm.classList.add('grey');
             flipGrey(activeElm);
-            share.push("⬜️ ")
+            share.push("⬜️ ");
 
-            $(divWithLetter[0]).addClass('strikethrough')
+            if(divWithLetter[0]) {
+                divWithLetter[0].classList.add('strikethrough');
+            }
 
-            lives--
+            lives--;
             if(lives > 1){
-                notify(lives+" guesses remaining.")
+                notify(lives+" guesses remaining.");
             }else{
-                notify(lives+" guess remaining.")
+                notify(lives+" guess remaining.");
             }
             if(lives == 0){
                 cGuess = puzzle;
-                share.push("❌")
-                $(".result").text(share.join(""));
-                $('.r-div').show();
+                share.push("❌");
+                document.querySelector(".result").textContent = share.join("");
+                document.querySelector('.r-div').style.display = 'block';
             }
         }else{
-            aEID = $(activeElm).attr("id")
+            aEID = activeElm.getAttribute("id");
             if( keyChar != puzzle[aEID.charCodeAt(0) - 97]){
-                $(divWithLetter[0]).addClass('yellow');
-                //$(activeElm).delay(2000).text('Y')
-                share.push("🟨 ")
+                if(divWithLetter[0]) {
+                    divWithLetter[0].classList.add('yellow');
+                }
+                share.push("🟨 ");
             }else{
-                $(divWithLetter[0]).addClass('greenKey');
+                if(divWithLetter[0]) {
+                    divWithLetter[0].classList.add('greenKey');
+                }
             }
         }
         activeElm = null;
@@ -166,48 +171,44 @@ function handleKeyPress(keyChar) {
 }
 
 function notify(message) {
-    var $notificationBox = $('#notificationBox');
+    var notificationBox = document.getElementById('notificationBox');
 
-    $notificationBox.text(message);
+    notificationBox.textContent = message;
  
-    $notificationBox.fadeIn(200).delay(1500).fadeOut(200);
+    notificationBox.style.display = 'block';
+    setTimeout(function() {
+        notificationBox.style.display = 'none';
+    }, 1700);
 }
 
 function flipGrey(elm) {
     setTimeout(function() {
-        $(elm).removeClass('grey')
-        $(elm).text('')
+        elm.classList.remove('grey');
+        elm.textContent = '';
     }, 1600);
 }
 
 
-$('.box').on( "click", function() {
-    if(!$(this).hasClass("corner") && !$(this).hasClass("green")){
-        
-        if(activeElm && activeElm !== this){
-            $(activeElm).removeClass("active");
+document.querySelectorAll('.box').forEach(function(box) {
+    box.addEventListener('click', function() {
+        if(!this.classList.contains("corner") && !this.classList.contains("green")){
+            
+            if(activeElm && activeElm !== this){
+                activeElm.classList.remove("active");
+            }
+
+            
+            this.classList.toggle("active");
+
+            // Update activeElm to the currently clicked box if it's now active, or set to null if not
+            activeElm = this.classList.contains("active") ? this : null;
         }
-
-        
-        $(this).toggleClass("active");
-
-        // Update activeElm to the currently clicked box if it's now active, or set to null if not
-        activeElm = $(this).hasClass("active") ? this : null;
-
-        // if($(this).hasClass('yellow')){
-        //     $(this).removeClass("yellow");
-        // }
-                
-        // if($(this).hasClass('grey')){
-        //     $(this).removeClass("grey");
-        // }
-    }
-
-  } );
+    });
+});
 
 function loadCorners(){
     for (let i = 0; i < corners.length; i++) {
-        $('.c'+i).text(corners[i]);
+        document.querySelector('.c'+i).textContent = corners[i];
     }
 }
 
@@ -222,22 +223,16 @@ document.onkeypress=function(e){
 }
 
 if(!played){
-    $("#popup").show();
+    document.getElementById("popup").style.display = "block";
 }
 
-
-$(".popup-content").animate({ bottom: "10%" }, "slow");
-
 // Close the popup when the 'x' is clicked
-$(".close").click(function(){
-    $("#popup").fadeOut();
-  $(".popup-content").animate({ bottom: "-100%" }, function() {
-    $("#popup").hide(); 
+document.querySelector(".close").addEventListener('click', function(){
+    document.getElementById("popup").style.display = "none";
     localStorage.setItem("played", "yes");
-  });
 });
 
-$(".share").click(function() {
-    navigator.clipboard.writeText($(".result").text());
+document.querySelector(".share").addEventListener('click', function() {
+    navigator.clipboard.writeText(document.querySelector(".result").textContent);
     notify("Copied!");
-})
+});
